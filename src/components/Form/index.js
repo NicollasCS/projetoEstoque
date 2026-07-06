@@ -2,31 +2,39 @@ import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import styles from "./Form.module.css";
 
-function Form() {
+function Form({ onCadastroSucesso }) {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
+
   const [mostrarSenha, setMostrarSenha] = useState(false);
+  const [mostrarConfirmar, setMostrarConfirmar] = useState(false);
 
   function senhaValida(senha) {
-    const temMinimo = senha.length >= 8;
-    const temNumero = /[0-9]/.test(senha);
-    const temMaiuscula = /[A-Z]/.test(senha);
-    const temEspecial = /[!@#$%^&*(),.?":{}|<>_\-\\[\]/]/.test(senha);
-
-    return temMinimo && temNumero && temMaiuscula && temEspecial;
+    return (
+      senha.length >= 8 &&
+      /[0-9]/.test(senha) &&
+      /[A-Z]/.test(senha) &&
+      /[!@#$%^&*(),.?":{}|<>_\-\\[\]/]/.test(senha)
+    );
   }
 
-  const camposPreenchidos =
-    email !== "" && senha !== "" && confirmarSenha !== "";
+  const podeEnviar =
+    email !== "" &&
+    senha !== "" &&
+    confirmarSenha !== "" &&
+    senhaValida(senha) &&
+    senha === confirmarSenha;
 
-  const senhaEhValida = senhaValida(senha);
-  const senhasConferem = senha === confirmarSenha;
-
-  const podeEnviar = camposPreenchidos && senhaEhValida && senhasConferem;
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (podeEnviar) {
+      onCadastroSucesso?.();
+    }
+  }
 
   return (
-    <div className={styles.formulario}>
+    <form className={styles.formulario} onSubmit={handleSubmit}>
       <h2>Cadastro</h2>
 
       <input
@@ -36,7 +44,6 @@ function Form() {
         onChange={(e) => setEmail(e.target.value)}
       />
 
-      {/* SENHA */}
       <div className={styles.senhaContainer}>
         <input
           type={mostrarSenha ? "text" : "password"}
@@ -44,12 +51,18 @@ function Form() {
           value={senha}
           onChange={(e) => setSenha(e.target.value)}
         />
+
+        <span
+          className={styles.olho}
+          onClick={() => setMostrarSenha((p) => !p)}
+        >
+          {mostrarSenha ? <FaEyeSlash /> : <FaEye />}
+        </span>
       </div>
 
-      {/* CONFIRMAR SENHA */}
       <div className={styles.senhaContainer}>
         <input
-          type={mostrarSenha ? "text" : "password"}
+          type={mostrarConfirmar ? "text" : "password"}
           placeholder="Confirmar senha"
           value={confirmarSenha}
           onChange={(e) => setConfirmarSenha(e.target.value)}
@@ -57,37 +70,28 @@ function Form() {
 
         <span
           className={styles.olho}
-          onClick={() => setMostrarSenha(!mostrarSenha)}
+          onClick={() => setMostrarConfirmar((p) => !p)}
         >
-          {mostrarSenha ? <FaEyeSlash /> : <FaEye />}
+          {mostrarConfirmar ? <FaEyeSlash /> : <FaEye />}
         </span>
       </div>
 
-      {/* ERROS */}
-      {!senhaEhValida && senha.length > 0 && (
-        <p style={{ color: "red", fontSize: "12px" }}>
-          Senha fraca: 8+ caracteres, 1 número, 1 maiúscula e 1 especial.
-        </p>
-      )}
+      <p className={styles.erroBox}>
+        {!senhaValida(senha) && senha.length > 0
+          ? "Senha fraca"
+          : "\u00A0"}
+      </p>
 
-      {!senhasConferem && confirmarSenha.length > 0 && (
-        <p style={{ color: "red", fontSize: "12px" }}>
-          As senhas não coincidem.
-        </p>
-      )}
+      <p className={styles.erroBox}>
+        {senha !== confirmarSenha && confirmarSenha.length > 0
+          ? "Senhas não coincidem"
+          : "\u00A0"}
+      </p>
 
-      {/* BOTÃO */}
-      <button
-        disabled={!podeEnviar}
-        style={{
-          backgroundColor: podeEnviar ? "green" : "gray",
-          color: "white",
-          cursor: podeEnviar ? "pointer" : "not-allowed",
-        }}
-      >
+      <button type="submit" disabled={!podeEnviar}>
         Enviar
       </button>
-    </div>
+    </form>
   );
 }
 

@@ -28,7 +28,7 @@ const Log = database.define("log", {
     }
   },
   data_criacao: {
-    type: DataTypes.TIMESTAMP,
+    type: DataTypes.DATE,
     allowNull: false,
   }
 });

@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 
 const User = database.define("user", {
   id: {
-    type: DataTypes.SERIAL,
+    type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true
   },
