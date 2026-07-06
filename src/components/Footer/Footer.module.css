@@ -18,10 +18,13 @@
 
   background-size: 600% 100%;
 
-  animation: greenMoveFooter 4s linear infinite;
+  animation: greenRGB 4s linear infinite;
+
+  color: white;
+  margin-top: auto;
 }
 
-@keyframes greenMoveFooter {
+@keyframes greenRGB {
   from {
     background-position: 100% 0%;
   }

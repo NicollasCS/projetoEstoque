@@ -5,11 +5,13 @@ import Form from './components/Form';
 
 function App() {
   return (
-    <>
+    <div className="app">
       <Header />
+    <main className="content">
       <Form />
+    </main>
       <Footer />
-    </>
+    </div>
   );
 }
 
