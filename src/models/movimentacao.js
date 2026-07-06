@@ -3,7 +3,7 @@ const { DataTypes } = require("sequelize");
 
 const Movimentacao = database.define("movimentacao", {
   id: {
-    type: DataTypes.SERIAL,
+    type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true
   },
