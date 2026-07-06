@@ -1,17 +1,32 @@
 .footer {
-    position: absolute;
-    bottom: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(rgb(77, 77, 77), rgb(117, 117, 117));
-    color: white;
-    border-top: 2px solid white;
-    padding-block: 0.75rem;
-    width: 100%;
+  width: 100%;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+
+  background: linear-gradient(
+    90deg,
+    #3abe2e,
+    #1e293b,
+    #3abe2e,
+    #1e293b,
+    #3abe2e,
+    #1e293b
+  );
+
+  background-size: 600% 100%;
+
+  animation: greenMoveFooter 4s linear infinite;
 }
 
-.footer h2 {
-    font-size: 1rem;
-    font-weight: 500;
+@keyframes greenMoveFooter {
+  from {
+    background-position: 100% 0%;
+  }
+
+  to {
+    background-position: 0% 0%;
+  }
 }
